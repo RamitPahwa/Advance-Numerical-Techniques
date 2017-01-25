@@ -112,6 +112,8 @@ def main():
     plt.xlabel ("X")
     p1,p2,p3=plt.plot(x_3,np.interp(x_3,x_1,y_1),'r--',x_3,np.interp(x_3,x_2,y_2),'gs',x_3,y_3,'b')
     plt.legend([p1, p2, p3], ["h = 0.1", "h =0.05", "h = 0.01"], loc =4)
+    # p11=plt.plot(x_1,y_1,'r')
+    # plt.legend(p11,["h=0.1",],loc=4)
     plt.show()
 
 main()
