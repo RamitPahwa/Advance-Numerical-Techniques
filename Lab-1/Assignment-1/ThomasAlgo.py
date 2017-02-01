@@ -3,23 +3,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tabulate import tabulate
 
-
-# solve eequation x^2*y''+x*y'=1
-# given y(1)=0 & y(1.4)=0.0566
-
-# values of function to be returned
-
 def A(x):
     return (1.0 / x)
-
 
 def B(x):
     return 0.0
 
-
 def C(x):
     return (1 / x **2)
-
 
 def thomasAlgo(
     a,
@@ -44,7 +35,6 @@ def thomasAlgo(
         y[i] = d1[i] - c1[i] * y[i + 1]
 
     return y
-
 
 def solveBVP(
     a_intial,
@@ -71,7 +61,6 @@ def solveBVP(
             d[i-1] = C(x)
 
     return [y_a] + thomasAlgo(a, b, c, d) + [y_b]
-
 
 def main():
     a_intial = 1
