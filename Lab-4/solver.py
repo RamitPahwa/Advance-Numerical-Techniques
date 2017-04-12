@@ -29,6 +29,15 @@ def thomasAlgo(
 
     return y
 
+def plotGraph(input_x,output_y,h):
+    plt.ylabel("Y")
+    plt.xlabel ("X")
+    p=plt.plot(input_x,output_y,'r')
+    plt.legend(p,["h="+str(h),],loc=4)
+    plt.savefig("plot-h="+str(h)+".png")
+    plt.show()
+
+
 def crankNicolson():
 	dx=0.05
 	dt=0.005
@@ -36,14 +45,30 @@ def crankNicolson():
 	rt=0.1
 	n=int(rx/dx) #for X
 	m=int(rt/dt)  #for T or Y
-	X=np.linspace(0,rx,n)
+	X=np.linspace(0,rx,n+1)
 	T=np.linspace(0,rt,m)
-	print len(X)
-	print len(T)
 
-	U=np.zeros((n,m),dtype=np.float64)
-	print len(U)
+	U=np.zeros((n+1,m),dtype=np.float64)
+	U[:,0]=1.0
+	for i in range(1,m):
+		# print i
+		A=[0]+[(1/(2*dx**2.0)) for j in range(1,n)]+[1/dx**2.0]
+		# print A
+		B=[-(1/(dx**2.0)+1/dt) for j in range(0,n+1)]
+		# print B
+		C=[1/(dx**2.0)]+[(1/(2*dx**2.0)) for j in range(1,n)]+[0]
+		# print C
+		D=[(U[0,i-1]*((3/(dx**2.0))-(1/dt)))-(1/(dx**2.0))*U[1,i-1]]+\
+		[(U[j-1,i-1]*(-1*(1/(2*dx**2.0))))+(U[j,i-1]*(1/(dx**2.0)-1/dt))+(U[j+1,i-1]*(-1*(1/(2*dx**2.0)))) for j in range(1,n)]\
+		+[(-1*U[n-1,i-1]*(1/(dx**2.0)))-(1/(dx**2.0)+1/dt)*U[m,i-1]]
+		# print D
+		U[:,i]=np.array(thomasAlgo(A,B,C,D))
+		# print thomasAlgo(A,B,C,D)
+		# print U	
+	return U,X	
 
-crankNicolson()
+U,X=crankNicolson()
+plotGraph(U[:,15],X,0)
+
 
 
